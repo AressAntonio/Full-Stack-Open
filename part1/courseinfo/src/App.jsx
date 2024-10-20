@@ -2,31 +2,32 @@
 const App = ()=>{
   
   //variables
-  const course = 'HAlf Stack application development';
+  const course = {
+    name: 'HAlf Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      },
+    ]
+  };
 
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    },
 
-
-  ]
 
   //HEADER COMPONENT
   const Header = ()=>{
     return(
 
       <h1>
-      <strong>{course}</strong>
+      <strong>{course.name}</strong>
       </h1>
     )
   };
@@ -36,7 +37,7 @@ const App = ()=>{
     return(
 
       <p>
-        {parts[0].name} whit {parts[0].exercises} exercises.
+        {course.parts[0].name} whit {course.parts[0].exercises} exercises.
       </p>
 
     )
@@ -45,7 +46,7 @@ const App = ()=>{
   const Part2 = ()=>{
     return(
       <p>
-        {parts[1].name} whit {parts[1].exercises} exercises.
+        {course.parts[1].name} whit {course.parts[1].exercises} exercises.
       </p>
     )
   };
@@ -53,7 +54,7 @@ const App = ()=>{
   const Part3 = ()=>{
     return(
       <p>
-        {parts[2].name} whit {parts[2].exercises} exercises.
+        {course.parts[2].name} whit {course.parts[2].exercises} exercises.
     </p>
     )
   };
@@ -75,7 +76,7 @@ const App = ()=>{
     return(
       <>
         <p>
-          Number of exercises: {parts[0].exercises + parts[1].exercises + parts[2].exercises}
+          Number of exercises: {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}
         </p>
       </>
     )
@@ -84,7 +85,7 @@ const App = ()=>{
   return(
 
     <>
-      <Header course={course}/>
+      <Header />
       <Content />
       <Total />
     </>
