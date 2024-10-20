@@ -4,20 +4,22 @@ const App = ()=>{
   //variables
   const course = 'HAlf Stack application development';
 
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10,
-  };
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    },
 
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7,
-  };
 
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14.
-  };
+  ]
 
   //HEADER COMPONENT
   const Header = ()=>{
@@ -34,7 +36,7 @@ const App = ()=>{
     return(
 
       <p>
-        {part1.name} whit {part1.exercises} exercises.
+        {parts[0].name} whit {parts[0].exercises} exercises.
       </p>
 
     )
@@ -43,7 +45,7 @@ const App = ()=>{
   const Part2 = ()=>{
     return(
       <p>
-        {part2.name} whit {part2.exercises} exercises.
+        {parts[1].name} whit {parts[1].exercises} exercises.
       </p>
     )
   };
@@ -51,7 +53,7 @@ const App = ()=>{
   const Part3 = ()=>{
     return(
       <p>
-        {part3.name} whit {part3.exercises} exercises.
+        {parts[2].name} whit {parts[2].exercises} exercises.
     </p>
     )
   };
@@ -73,7 +75,7 @@ const App = ()=>{
     return(
       <>
         <p>
-          Number of exercises: {part1.exercises + part2.exercises + part3.exercises}
+          Number of exercises: {parts[0].exercises + parts[1].exercises + parts[2].exercises}
         </p>
       </>
     )
