@@ -1,94 +1,98 @@
+import { useState } from "react";
 
-const App = ()=>{
+//AppCounter
+/*const Display = ({counter})=>
+<div>{counter}</div>;
+
+const Button = ({onClick, text})=> <button onClick={onClick}>{text}</button>
+
+const App = (props)=>{
+
+  const [counter, setCounter] = useState(0);
+  console.log('Rendering with counter value', counter);
   
-  //variables
-  const course = {
-    name: 'HAlf Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      },
-    ]
+  const increaseByOne = ()=>{
+    setCounter(counter + 1);
+    console.log('Increasing, value before', counter);
+  }; 
+
+  const setToZero = ()=> {
+    setCounter(0);
+    console.log('Resetting, value to zero', counter);
+
   };
 
+  const decreaseByOne = ()=>{
+    setCounter(counter - 1);
+    console.log('Decreasing, value before', counter);
+  }; 
 
+  console.log('rendering...', counter);
 
-  //HEADER COMPONENT
-  const Header = ()=>{
+  return(
+    <div>
+
+      <Display counter={counter} />
+
+      <Button onClick={increaseByOne} text='plus' />
+
+      <Button onClick={setToZero} text='clear' />
+
+      <Button onClick={decreaseByOne} text='minus' />
+
+    </div>
+    
+  )
+  
+}*/
+
+//App Left and Right
+
+/*const History = (props)=>{
+  if(props.allClicks.length === 0){
     return(
-
-      <h1>
-      <strong>{course.name}</strong>
-      </h1>
-    )
-  };
-
-  //CONTENT COMPONENT
-  const Part1 = ()=>{
-    return(
-
-      <p>
-        {course.parts[0].name} whit {course.parts[0].exercises} exercises.
-      </p>
-
-    )
-  };
-
-  const Part2 = ()=>{
-    return(
-      <p>
-        {course.parts[1].name} whit {course.parts[1].exercises} exercises.
-      </p>
-    )
-  };
-
-  const Part3 = ()=>{
-    return(
-      <p>
-        {course.parts[2].name} whit {course.parts[2].exercises} exercises.
-    </p>
-    )
-  };
-
-  const Content = ()=>{
-    return(
-
-      <>
-        <Part1 />
-        <Part2 />
-        <Part3 />
-      </>
-      
-    )
-  }
-
-  //TOTAL COMPONENT
-  const Total = ()=>{
-    return(
-      <>
-        <p>
-          Number of exercises: {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}
-        </p>
-      </>
+      <div>
+        the app is used by pressing the buttons
+      </div>
     )
   }
 
   return(
+    <div>
+      button press history: {props.allClicks.join(' ')}
+    </div>
+  )
+}
 
-    <>
-      <Header />
-      <Content />
-      <Total />
-    </>
+const Button = ({handleClick, text})=>(
+  <button onClick={handleClick}>
+    {text}
+  </button>
+);*/
+
+const Display = props => <div>{props.value}</div>
+
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
+
+const App = () => {
+  const [value, setValue] = useState(10)
+
+  const setToValue = newValue => {
+    console.log('value now', newValue)
+    setValue(newValue)
+  }
+
+  return (
+    <div>
+      <Display value={value} />
+      <Button handleClick={() => setToValue(1000)} text="thousand" />
+      <Button handleClick={() => setToValue(0)} text="reset" />
+      <Button handleClick={() => setToValue(value + 1)} text="increment" />
+    </div>
   )
 }
 
