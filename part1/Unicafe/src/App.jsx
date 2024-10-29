@@ -14,6 +14,8 @@ const Button = (props) => (
 
 
 
+
+
 const Promedio = ({bad,good,neutral})=>{
   
   let TotalPromGood = 0;
@@ -36,12 +38,19 @@ const Promedio = ({bad,good,neutral})=>{
   console.log('Promedio: ',Prom,'\r PorcenProm: ', TotalProm);
 
   return(
-    <strong>
+    <p>
+      <strong>
       Average: {TotalProm} %
-    </strong>
+      </strong>
+    </p>
   )
 }
 
+const StatisticLine =({text,props})=>{
+  return(
+    <p><strong>{text}: {props}</strong></p>
+  )
+}
 
 const Statistics = ({start,bad,neutral,good})=>{
   if (!neutral&!bad&!good){
@@ -59,14 +68,17 @@ const Statistics = ({start,bad,neutral,good})=>{
  
    return(
     <>
+        
       <h2><strong>Statistics</strong></h2>
-      <p><strong>Good: {good}</strong></p>
-      <p><strong>Neutral: {neutral}</strong></p>
-      <p><strong>Bad: {bad}</strong></p>
+
+      <StatisticLine text='Good' props= {good} />
+      <StatisticLine text='Neutral' props={neutral} />
+      <StatisticLine text='Bad' props={bad} />
+
       <p><strong>All: {Total}</strong></p>
-      <p>
-        <Promedio bad={bad} good={good} neutral={neutral}/>
-      </p>
+
+      <Promedio bad={bad} good={good} neutral={neutral}/>
+
       <p>
         <strong>
           Positive: {porc} %
@@ -101,11 +113,7 @@ const App = () => {
   }
 
   const [start, setDatos] = useState('No feedback given');
-  const setToDatos=(newValue)=>{
-    console.log('inicial rendering', start)
-    setDatos(newValue)
-  }
-
+  
   return (
     <>
 
@@ -114,9 +122,9 @@ const App = () => {
       <Button handleClick={()=>setToGood(good + 1)} text='Good'/>
       
       <Button handleClick={()=>setToNeutral(neutral + 1)} text='Neutral' />
-      
+          
       <Button handleClick={()=>setToBad(bad + 1)} text='Bad' />
-      
+
       <Statistics start={start} bad={bad} good={good} neutral={neutral}/>
       
     </>
