@@ -38,17 +38,15 @@ const Promedio = ({bad,good,neutral})=>{
   console.log('Promedio: ',Prom,'\r PorcenProm: ', TotalProm);
 
   return(
-    <p>
       <strong>
-      Average: {TotalProm} %
+        Average: {TotalProm} %
       </strong>
-    </p>
   )
 }
 
 const StatisticLine =({text,props})=>{
   return(
-    <p><strong>{text}: {props}</strong></p>
+    <strong>{text}: {props}</strong>
   )
 }
 
@@ -70,21 +68,53 @@ const Statistics = ({start,bad,neutral,good})=>{
     <>
         
       <h2><strong>Statistics</strong></h2>
+      <table border="1">
+        <tbody>
 
-      <StatisticLine text='Good' props= {good} />
-      <StatisticLine text='Neutral' props={neutral} />
-      <StatisticLine text='Bad' props={bad} />
+          <tr>
+          <td>
+           <StatisticLine text='Good' props= {good} />
+          </td>
+          </tr>
 
-      <p><strong>All: {Total}</strong></p>
+          <tr>
+          <td>
+           <StatisticLine text='Neutral' props={neutral} />
+          </td>
+          </tr>
 
-      <Promedio bad={bad} good={good} neutral={neutral}/>
+          <tr>
+            <td>
+            <StatisticLine text='Bad' props={bad} />
+            </td>
+          </tr>
 
-      <p>
-        <strong>
-          Positive: {porc} %
-        </strong>
-      </p>
-        
+          <tr>
+            <td>
+              <strong>All: {Total}</strong>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+            <Promedio bad={bad} good={good} neutral={neutral}/>
+            </td>
+          </tr>
+
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td>
+              <strong>
+                Positive: {porc} %
+              </strong>
+            </td>
+          </tr>
+        </tfoot>
+
+      </table>
+    
     </>
    )
 
