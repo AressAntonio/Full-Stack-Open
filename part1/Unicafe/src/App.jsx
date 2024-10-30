@@ -6,6 +6,7 @@ const Header = (props)=>{
     <h1><strong>{props.text}</strong></h1>
   )
 }
+
 const Button = (props) => (
   <button onClick={props.handleClick}>
     {props.text}
