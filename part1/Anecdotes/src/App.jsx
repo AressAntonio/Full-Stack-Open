@@ -6,8 +6,11 @@ const Button = (props) => (
   </button>
 );
 
+
+
 function App() {
   const title = "Anecdotes";
+  
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -26,14 +29,32 @@ function App() {
     setSelected(newValue)
   }
 
+  const [votes, setVote] = useState({});
+
+  const addVote = ()=>{
+    if(selected){
+      setVote((prevVotes)=>({
+        ...prevVotes,
+        [selected]: (prevVotes[selected]||0)+1
+      }));
+    }
+  }
+  
+
   return(
     <>
       <h1><strong>{title}</strong></h1>
       <p>
       {selected}
       </p>
+      <p>
+        has <strong>{votes[selected]}</strong> votes.
+      </p>
 
       <p>
+
+      <button onClick={addVote}>vote</button>
+
       <Button handleClick={()=>setToSelected(anecdotes[Math.floor(Math.random()*anecdotes.length)])} text='next anecdote'/>
       </p>
       
