@@ -6,6 +6,28 @@ const Button = (props) => (
   </button>
 );
 
+const AnecdoteMostVotes =({anecdotes, votes, selected})=>{
+  const indiMost = Object.keys(votes).reduce((a, b)=> votes[a] > votes[b] ? a : b, 0);
+  
+
+  return(
+    <div>
+      <h2><strong>Anectote with most votes.</strong></h2>
+        <>
+         {votes[indiMost] > 0 ? (
+          <>
+            <p>{anecdotes[indiMost]}</p>
+            <p>has: {votes[indiMost]} votes.</p>
+          </>
+      ) : (
+          <p>Any votes for now.</p>
+      )}
+        </>
+      
+    </div>
+  )
+}
+
 
 
 function App() {
@@ -22,12 +44,13 @@ function App() {
     'The only way to go fast, is to go well.'
   ];
 
-  const [selected, setSelected] = useState(anecdotes[0]);
+  const [selected, setSelected] = useState(null);
   console.log(selected);
   const setToSelected = (newValue)=>{
     console.log('value of button', newValue)
     setSelected(newValue)
   }
+  const anecAle = Math.floor(Math.random()*anecdotes.length);
 
   const [votes, setVote] = useState({});
 
@@ -38,25 +61,35 @@ function App() {
         [selected]: (prevVotes[selected]||0)+1
       }));
     }
+    console.log(votes)
   }
   
 
   return(
     <>
       <h1><strong>{title}</strong></h1>
-      <p>
-      {selected}
-      </p>
-      <p>
-        has <strong>{votes[selected]}</strong> votes.
-      </p>
+
+      <>
+        {selected !== null ? (
+            <>
+              <p>{anecdotes[selected]}</p>
+              <p>has: <strong>{votes[selected]}</strong> votes.</p>
+            </>
+        ) : (
+            <>
+            <p>Any anecdote for now, you need on click next anecdote button.</p>
+            </>
+        )}
+      </>
 
       <p>
 
       <button onClick={addVote}>vote</button>
 
-      <Button handleClick={()=>setToSelected(anecdotes[Math.floor(Math.random()*anecdotes.length)])} text='next anecdote'/>
+      <Button handleClick={()=>setToSelected(anecAle)} text='next anecdote'/>
       </p>
+
+      <AnecdoteMostVotes anecdotes={anecdotes} votes={votes} selected={selected} />
       
     </>
   )
@@ -65,4 +98,7 @@ function App() {
 
 }
 
+
+
 export default App
+
