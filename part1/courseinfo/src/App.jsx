@@ -9,7 +9,22 @@ const Course = ({course})=>{
           </p>
       );
     });
-    console.log(partDetails);
+    console.log('objects render: ',partDetails);
+
+    const Sum = ()=>{
+      const allExercises = course.parts.reduce((acount, part)=>{
+        return acount += part.exercises;
+      }, 0)
+      console.log('total of exercises: ',allExercises);
+
+      return(
+        <p>
+           <strong>
+            All exercises:  {allExercises}.
+            </strong>
+        </p>
+      )
+    }
 
     return(
       <>
@@ -21,6 +36,7 @@ const Course = ({course})=>{
 
         <article>
           {partDetails}
+          <Sum />
         </article>
       </>
     )
@@ -48,7 +64,12 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
-      }
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
+      },
     ]
   }
 
