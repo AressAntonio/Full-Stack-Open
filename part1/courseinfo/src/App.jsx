@@ -1,7 +1,7 @@
 
 const Course = ({course})=>{
 
-    const partDetails = course.parts.map(part => {
+    const partDetails = course[0].parts.map(part => {
       return (
 
           <p key={part.id}>
@@ -11,8 +11,32 @@ const Course = ({course})=>{
     });
     console.log('objects render: ',partDetails);
 
+    const partDetailsTwo = course[1].parts.map(part =>{
+      return(
+        <p key={part.id}>
+          {part.name} : <span>{part.exercises}</span>
+        </p>
+      );
+    })
+    console.log('object2 render: ', partDetailsTwo);
+
     const Sum = ()=>{
-      const allExercises = course.parts.reduce((acount, part)=>{
+      const allExercises = course[0].parts.reduce((acount, part)=>{
+        return acount += part.exercises;
+      }, 0)
+      console.log('total of exercises: ',allExercises);
+
+      return(
+        <p>
+           <strong>
+            All exercises:  {allExercises}.
+            </strong>
+        </p>
+      )
+    };
+
+    const SumTwo = ()=>{
+      const allExercises = course[1].parts.reduce((acount, part)=>{
         return acount += part.exercises;
       }, 0)
       console.log('total of exercises: ',allExercises);
@@ -30,7 +54,7 @@ const Course = ({course})=>{
       <>
         <h1>
         <strong>
-          {course.name}
+          {course[0].name}
         </strong>
         </h1>
 
@@ -38,6 +62,19 @@ const Course = ({course})=>{
           {partDetails}
           <Sum />
         </article>
+
+        <h2>
+          <strong>
+            {course[1].name}
+          </strong>
+        </h2>
+
+        <article>
+          {partDetailsTwo}
+          <SumTwo />
+        </article>
+
+        
       </>
     )
       
@@ -46,10 +83,11 @@ const Course = ({course})=>{
 
 
 const App = () => {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
+  const course = [
+    {
+      id: 1,
+     name: 'Half Stack application development',
+     parts: [
       {
         name: 'Fundamentals of React',
         exercises: 10,
@@ -70,8 +108,25 @@ const App = () => {
         exercises: 11,
         id: 4
       },
-    ]
-  }
+     ]
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    },
+  ]
 
   return(
     <>
