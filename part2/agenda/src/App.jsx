@@ -1,12 +1,13 @@
 import {useState} from 'react';
 import Contac from './components/Contacs';
+import Filtro from './components/Filtro';
 
 const App = (props)=>{
 
   const [persons, setPersons] = useState(props.persons);
 
   const [newName, setNewName] = useState('a new person');
-  const [newNumber, setNewNumber] = useState('new number...')
+  const [newNumber, setNewNumber] = useState('new number...');
 
   const addPerson = (event)=>{
     event.preventDefault();
@@ -46,7 +47,7 @@ const App = (props)=>{
 
     <div>
       <h1><strong>Phonebook</strong></h1>
-
+      <Filtro persons={persons} />
       <div>
         <h2><strong>Contactos.</strong></h2>
         <ul>
