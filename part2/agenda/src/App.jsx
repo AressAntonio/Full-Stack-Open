@@ -7,7 +7,7 @@ const App = (props)=>{
   const [persons, setPersons] = useState(props.persons);
 
   const [newName, setNewName] = useState('a new person');
-  const [newNumber, setNewNumber] = useState('new number...');
+  const [newNumber, setNewNumber] = useState('00-00-00-00-00');
 
   const addPerson = (event)=>{
     event.preventDefault();
@@ -61,11 +61,11 @@ const App = (props)=>{
         <h3><strong>Agregar nuevo Contacto.</strong></h3>
         <form onSubmit={addPerson}>
             <div>
-              Nombre del contacto: <input type='text' value = {newName} onChange={handlePersonChange}/>
+              Nombre del contacto: <input type='text' value = {newName} onChange={handlePersonChange} required/>
             </div>
 
             <div>
-              Numero del contacto: <input type='phone' value={newNumber} onChange={handleNumberChange}/>
+              Numero del contacto: <input type='tel' pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" placeholder="00-00-00-00-00" value={newNumber} onChange={handleNumberChange} required/>
             </div>
 
             <div>
