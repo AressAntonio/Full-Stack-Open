@@ -16,7 +16,17 @@ const App = (props)=>{
       number: newNumber,
       id: persons.length + 1,
     };
-    setPersons(persons.concat(personObject))
+
+    
+    const exists = persons.some(person => person.nombre === newName || person.number === newNumber);
+
+    if(exists){
+      alert(`${newName} ya está agregado a la agenda.`)
+    }else{
+      setPersons(persons.concat(personObject));
+      alert(`${newName} fue agregado a tus contactos exitosamente.`);
+    }
+    
     setNewName('')
     setNewNumber('')
     console.log('button clicked', event.target);
@@ -58,7 +68,7 @@ const App = (props)=>{
             </div>
 
             <div>
-              <button type='submit'>guardar contacto</button>
+              <button type='submit'>Guardar contacto</button>
             </div>
         </form>
       </div>
