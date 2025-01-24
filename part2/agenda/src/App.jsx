@@ -1,14 +1,29 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 import Contac from './components/Contacs';
 import Filtro from './components/Filtro';
 
 const App = (props)=>{
 
-  const [persons, setPersons] = useState(props.persons);
+  const [persons, setPersons] = useState([]);
 
   const [newName, setNewName] = useState('a new person');
   const [newNumber, setNewNumber] = useState('00-00-00-00-00');
 
+  //trayendo datos de bd.json usando json-server
+  const hook = ()=>{
+    console.log('effect');
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response=>{
+        console.log('promise fulfilled');
+        setPersons(response.data);
+      })
+  }
+  useEffect(hook, []);
+  console.log('render', persons.length, 'persons');
+
+  //metodo para agregar persona
   const addPerson = (event)=>{
     event.preventDefault();
 

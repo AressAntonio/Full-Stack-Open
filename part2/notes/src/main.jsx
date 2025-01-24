@@ -1,7 +1,24 @@
-import React from "react";
+
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+
+//ejemplo de uso axios
+/*import axios from 'axios';
+const promise = axios.get('http://localhost:3001/notes');
+console.log(promise);
+const promise2 = axios.get('http://localhost:3001/foobar');
+console.log(promise2);
+promise.then(response=>{
+  console.log(response);
+})
+axios.get('http://localhost:3001/notes').then(response=>{
+  const note = response.data;
+  console.log(notes);
+});
 
 const notes = [
 
@@ -13,4 +30,9 @@ const notes = [
 
 ];
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App notes={notes} />);
+axios
+  .get('http://localhost:3001/notes')
+  .then(response=>{
+    const notes = response.data;
+   
+  });*/
