@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Contac from './components/Contacs';
 import Filtro from './components/Filtro';
+import personService from './services/persons';
 
 const App = (props)=>{
 
@@ -10,15 +11,16 @@ const App = (props)=>{
   const [newName, setNewName] = useState('a new person');
   const [newNumber, setNewNumber] = useState('00-00-00-00-00');
 
-  //trayendo datos de bd.json usando json-server
+  //trayendo datos de bd.json usando json-server, Effect-hook & libreria axios
   const hook = ()=>{
     console.log('effect');
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response=>{
+    personService
+      .getAll()
+      .then(initialPerson =>{
         console.log('promise fulfilled');
-        setPersons(response.data);
-      })
+        setPersons(initialPerson);
+      });
+
   }
   useEffect(hook, []);
   console.log('render', persons.length, 'persons');
@@ -30,22 +32,28 @@ const App = (props)=>{
     const personObject = {
       nombre: newName,
       number: newNumber,
-      id: persons.length + 1,
+      //id: persons.length + 1,
     };
 
-    
-    const exists = persons.some(person => person.nombre === newName || person.number === newNumber);
+    personService
+      .create(personObject)
+      .then(returnedPerson =>{
+        console.log(returnedPerson);
 
-    if(exists){
-      alert(`${newName} ya está agregado a la agenda.`)
-    }else{
-      setPersons(persons.concat(personObject));
-      alert(`${newName} fue agregado a tus contactos exitosamente.`);
-    }
-    
-    setNewName('')
-    setNewNumber('')
-    console.log('button clicked', event.target);
+        const exists = persons.some(person => person.nombre === newName || person.number === newNumber);
+
+        if(exists){
+          alert(`${newName} ya está agregado a la agenda.`)
+        }else{
+          setPersons(persons.concat(returnedPerson));
+          alert(`${newName} fue agregado a tus contactos exitosamente.`);
+        }
+        
+        setNewName('')
+        setNewNumber('')
+      });
+
+      console.log('button clicked', event.target);
   };
 
 //controldor de eventos en inputs
@@ -57,6 +65,17 @@ const App = (props)=>{
     console.log(event.target.value);
     setNewNumber(event.target.value);
   }
+
+  const personClear = (id) =>{
+    console.log(`Estas intentando borrar ${id} de tu agenda.`);
+    personService
+      .clear(id)
+      .then(clearPerson =>{
+        window.confirm(`Deseas borrar ${clearPerson.id}`);
+        setPersons(persons.filter(person => person.id !== id));
+      });
+  }
+
 /////////
   return(
 
@@ -67,7 +86,11 @@ const App = (props)=>{
         <h2><strong>Contactos.</strong></h2>
         <ul>
           {persons.map(person => 
-            <Contac key={person.id} contac={person} />
+            <Contac 
+              key={person.id} 
+              contac={person}
+              clearButton={()=>personClear(person.id)} 
+            />
           )}
         </ul>
       </div>
