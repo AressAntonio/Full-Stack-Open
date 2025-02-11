@@ -8,7 +8,7 @@
     {
       "id": "2",
       "content": "Browser can execute only JavaScript",
-      "important": false
+      "important": true
     },
     {
       "id": "3",
@@ -28,6 +28,31 @@
     {
       "id": "f8f5",
       "content": "I am user resfull api",
+      "important": false
+    },
+    {
+      "id": "02f5",
+      "content": "I am use a CSS styles",
+      "important": true
+    },
+    {
+      "id": "1e9e",
+      "content": "I am use a CSS now",
+      "important": true
+    },
+    {
+      "id": "ab8a",
+      "content": "I am use to index.css",
+      "important": true
+    },
+    {
+      "id": "abc0",
+      "content": "I am programing now",
+      "important": false
+    },
+    {
+      "id": "3b70",
+      "content": "I should lerning more programing",
       "important": false
     }
   ]

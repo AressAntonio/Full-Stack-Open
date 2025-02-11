@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import Note from "./components/Note";
 import noteService from './services/notes';
+import Notification from "./components/Notification";
+import Footer from "./components/Footer";
 
 
 const App = (props)=>{
@@ -11,6 +12,8 @@ const App = (props)=>{
   const [newNote, setNewNotes] = useState('a new note...');
 
   const [showAll, setShowAll] = useState(true);
+
+  const [errorMessage, setErrorMessage] = useState('¡Lo sentimos algo salio mal!');
 
 
   useEffect(()=>{
@@ -54,6 +57,10 @@ const App = (props)=>{
         setNotes(notes.concat(returnedNote));
         setNewNotes('');
       });
+      setErrorMessage('a create new Note..');
+        setTimeout(()=>{
+          setErrorMessage(null)
+        },5000);
     
     /*setNotes(notes.concat(noteObject))
     setNewNotes('')*/
@@ -76,10 +83,19 @@ const App = (props)=>{
       .then(returnedNote =>{
         setNotes(notes.map(note => note.id !== id ? note : returnedNote));
       })
+      /*.update(changedNote).then(returnedNote => {
+        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+      })*/
       .catch(error =>{
-        alert(
-          `the note '${note.content}' was already deleted from server`
+        
+        setErrorMessage(
+          `Note '${note.content}' ya fue removida del servidor.`
         );
+
+        setTimeout(()=>{
+          setErrorMessage(null);
+        }, 5000);
+
         setNotes(notes.filter(n => n.id !== id));
       })
     console.log(`importance of ${id} needs to be toggled`);
@@ -89,6 +105,8 @@ const App = (props)=>{
 
     <div>
       <h1><strong>Notes</strong></h1>
+
+      <Notification message={errorMessage} />
 
       <div>
         <button onClick={()=>setShowAll(!showAll)}>
@@ -111,6 +129,8 @@ const App = (props)=>{
         <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
+
+      <Footer />
 
     </div>
     
