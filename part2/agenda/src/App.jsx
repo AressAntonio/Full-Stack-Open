@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-import axios from 'axios';
 import Contac from './components/Contacs';
 import Filtro from './components/Filtro';
 import personService from './services/persons';
@@ -26,35 +25,68 @@ const App = (props)=>{
   console.log('render', persons.length, 'persons');
 
   //metodo para agregar persona
-  const addPerson = (event)=>{
+  const addPerson = (event) => {
     event.preventDefault();
-
+  
     const personObject = {
       nombre: newName,
       number: newNumber,
-      //id: persons.length + 1,
+      //id: persons.length + 1, // No es necesario, la API debería generar el ID
     };
+  
+    // Verificar si el objeto ya existe en la lista local
+    const existingPerson = persons.find(person => person.nombre === newName);
+  
+    if (existingPerson) {
+      // Si el usuario existe
+      if (existingPerson.number === newNumber) {
+        // Si el número es el mismo, mostrar un mensaje de alerta
+        alert(`${newName} ya está agregado a la agenda con el mismo número.`);
 
-    personService
-      .create(personObject)
-      .then(returnedPerson =>{
-        console.log(returnedPerson);
+        setNewName('');
+        setNewNumber('');
+      } else {
+        // Si el número es diferente, preguntar al usuario si desea actualizarlo
+        if (window.confirm(`El usuario ${newName} ya existe con un número diferente. ¿Deseas actualizar el número a ${newNumber}?`)) {
+          // Si el usuario acepta, actualizar el número en la API
+          personService
+            .update(existingPerson.id, personObject) 
+            .then(updatedPerson => {
+              // Actualizar la lista local de personas
+              setPersons(persons.map(person => person.id === updatedPerson.id ? updatedPerson : person));
+              alert(`${newName} fue actualizado exitosamente.`);
 
-        const exists = persons.some(person => person.nombre === newName || person.number === newNumber);
-
-        if(exists){
-          alert(`${newName} ya está agregado a la agenda.`)
-        }else{
+              setNewName('');
+              setNewNumber('');
+            })
+            .catch(alert('Error al actualizar contacto.'));
+        } else {
+          // Si el usuario no acepta, no hacer nada
+          alert('Acción cancelada.');
+          setNewName('');
+          setNewNumber('');
+        }
+      }
+    } else {
+      // Si el usuario no existe, enviar la solicitud a la API
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          console.log(returnedPerson);
           setPersons(persons.concat(returnedPerson));
           alert(`${newName} fue agregado a tus contactos exitosamente.`);
-        }
-        
-        setNewName('')
-        setNewNumber('')
-      });
-
-      console.log('button clicked', event.target);
+        })
+        .catch(alert(`Error al crear nuevo contacto: ${newName}||${newNumber}`));
+  
+      setNewName('');
+      setNewNumber('');
+    }
+  
+    console.log('button clicked', event.target);
   };
+  
+  
+  
 
 //controldor de eventos en inputs
   const handlePersonChange = (event)=>{
@@ -68,12 +100,17 @@ const App = (props)=>{
 
   const personClear = (id) =>{
     console.log(`Estas intentando borrar ${id} de tu agenda.`);
-    personService
-      .clear(id)
-      .then(clearPerson =>{
-        window.confirm(`Deseas borrar ${clearPerson.id}`);
-        setPersons(persons.filter(person => person.id !== id));
-      });
+    
+      if(window.confirm(`¿Desea eliminar el contacto de su agenda`)){
+        personService
+          .clear(id)
+          .then(clearPerson =>{
+            setPersons(persons.filter(person => person.id !== id));
+            alert(`Se a eliminado de su agenda a ${clearPerson.nombre}`);
+          });
+      }else{
+        console.log('NO SE ELIMINO EL CONTACTO DE LA AGENDA');
+      };
   }
 
 /////////
