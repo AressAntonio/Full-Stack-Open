@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import Contac from './components/Contacs';
 import Filtro from './components/Filtro';
 import personService from './services/persons';
+import Notification from './components/Notification';
 
 const App = (props)=>{
 
@@ -9,6 +10,8 @@ const App = (props)=>{
 
   const [newName, setNewName] = useState('a new person');
   const [newNumber, setNewNumber] = useState('00-00-00-00-00');
+
+  const [Message, setMessage] = useState(null);
 
   //trayendo datos de bd.json usando json-server, Effect-hook & libreria axios
   const hook = ()=>{
@@ -41,10 +44,15 @@ const App = (props)=>{
       // Si el usuario existe
       if (existingPerson.number === newNumber) {
         // Si el número es el mismo, mostrar un mensaje de alerta
-        alert(`${newName} ya está agregado a la agenda con el mismo número.`);
-
         setNewName('');
         setNewNumber('');
+
+        setMessage(`${newName} ya está agregado a la agenda con el mismo número.`);
+        setTimeout(()=>{
+          setMessage(null)
+        }, 5000);
+
+        
       } else {
         // Si el número es diferente, preguntar al usuario si desea actualizarlo
         if (window.confirm(`El usuario ${newName} ya existe con un número diferente. ¿Deseas actualizar el número a ${newNumber}?`)) {
@@ -54,12 +62,18 @@ const App = (props)=>{
             .then(updatedPerson => {
               // Actualizar la lista local de personas
               setPersons(persons.map(person => person.id === updatedPerson.id ? updatedPerson : person));
-              alert(`${newName} fue actualizado exitosamente.`);
 
               setNewName('');
               setNewNumber('');
+              
             })
-            .catch(alert('Error al actualizar contacto.'));
+            .catch(console.log('Error al actualizar contacto.'));
+
+            setMessage(`${newName} fue actualizado exitosamente.`);
+              setTimeout(()=>{
+                setMessage(null);
+              }, 5000);
+
         } else {
           // Si el usuario no acepta, no hacer nada
           alert('Acción cancelada.');
@@ -74,12 +88,18 @@ const App = (props)=>{
         .then(returnedPerson => {
           console.log(returnedPerson);
           setPersons(persons.concat(returnedPerson));
-          alert(`${newName} fue agregado a tus contactos exitosamente.`);
+          
+          setNewName('');
+          setNewNumber('');
         })
-        .catch(alert(`Error al crear nuevo contacto: ${newName}||${newNumber}`));
+        .catch(console.log(`Error al crear nuevo contacto: ${newName}||${newNumber}`));
+
+        setMessage(`${newName} fue agregado a tus contactos exitosamente.`);
+        setTimeout(()=>{
+          setMessage(null)
+        }, 5000);
   
-      setNewName('');
-      setNewNumber('');
+      
     }
   
     console.log('button clicked', event.target);
@@ -106,8 +126,14 @@ const App = (props)=>{
           .clear(id)
           .then(clearPerson =>{
             setPersons(persons.filter(person => person.id !== id));
-            alert(`Se a eliminado de su agenda a ${clearPerson.nombre}`);
+
+            setMessage(`Se a eliminado de su agenda a ${clearPerson.nombre}`);
           });
+
+          setTimeout(()=>{
+            setMessage(null)
+          }, 5000);
+
       }else{
         console.log('NO SE ELIMINO EL CONTACTO DE LA AGENDA');
       };
@@ -118,6 +144,7 @@ const App = (props)=>{
 
     <div>
       <h1><strong>Phonebook</strong></h1>
+      <Notification message={Message} />
       <Filtro persons={persons} />
       <div>
         <h2><strong>Contactos.</strong></h2>
