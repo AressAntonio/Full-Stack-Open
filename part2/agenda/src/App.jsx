@@ -13,6 +13,10 @@ const App = (props)=>{
 
   const [Message, setMessage] = useState(null);
 
+  const [textColor, setTextColor] = useState();
+
+  const [borderColor, setBorderColor] = useState();
+
   //trayendo datos de bd.json usando json-server, Effect-hook & libreria axios
   const hook = ()=>{
     console.log('effect');
@@ -47,6 +51,8 @@ const App = (props)=>{
         setNewName('');
         setNewNumber('');
 
+        setTextColor('darkcyan');
+        setBorderColor('darkcyan');
         setMessage(`${newName} ya está agregado a la agenda con el mismo número.`);
         setTimeout(()=>{
           setMessage(null)
@@ -69,6 +75,8 @@ const App = (props)=>{
             })
             .catch(console.log('Error al actualizar contacto.'));
 
+            setTextColor('goldenrod');
+            setBorderColor('goldenrod');
             setMessage(`${newName} fue actualizado exitosamente.`);
               setTimeout(()=>{
                 setMessage(null);
@@ -89,12 +97,16 @@ const App = (props)=>{
           console.log(returnedPerson);
           setPersons(persons.concat(returnedPerson));
           
+          setTextColor('lightgreen');
+          setBorderColor('lightgreen');
+          setMessage(`${newName} fue agregado a tus contactos exitosamente.`);
           setNewName('');
           setNewNumber('');
         })
+       
         .catch(console.log(`Error al crear nuevo contacto: ${newName}||${newNumber}`));
 
-        setMessage(`${newName} fue agregado a tus contactos exitosamente.`);
+        
         setTimeout(()=>{
           setMessage(null)
         }, 5000);
@@ -127,6 +139,9 @@ const App = (props)=>{
           .then(clearPerson =>{
             setPersons(persons.filter(person => person.id !== id));
 
+            setTextColor('red');
+            setBorderColor('red');
+
             setMessage(`Se a eliminado de su agenda a ${clearPerson.nombre}`);
           });
 
@@ -144,7 +159,11 @@ const App = (props)=>{
 
     <div>
       <h1><strong>Phonebook</strong></h1>
-      <Notification message={Message} />
+      <Notification 
+        message={Message} 
+        textColor={textColor}
+        borderColor={borderColor}
+      />
       <Filtro persons={persons} />
       <div>
         <h2><strong>Contactos.</strong></h2>

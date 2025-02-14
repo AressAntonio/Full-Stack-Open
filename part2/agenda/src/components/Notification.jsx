@@ -1,5 +1,5 @@
 
-const Notification = ({message}) =>{
+const Notification = ({message, textColor, borderColor}) =>{
     
     if(message === null){
         return null;
@@ -7,7 +7,7 @@ const Notification = ({message}) =>{
 
     return(
         
-        <div className="noti">
+        <div className="noti" style={{color: textColor, border: `2px solid ${borderColor}`}}>
             {message}
         </div>
     )
