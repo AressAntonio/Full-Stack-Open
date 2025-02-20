@@ -100,6 +100,7 @@ app.delete('/api/notes/:id', (request, response)=>{
 });
 
 
+//definicion de puerto para levantar servidor web
 const PORT = 3001;
 app.listen(PORT);
 console.log(`Server runnig on port http://localhost:${PORT}`);
