@@ -59,6 +59,22 @@ app.get('/api/persons', (request, response)=>{
 //TRAYENDO INFO DE LA API
 app.get('/api/info', (request, response)=>{
 
+    //Codigo para mostar info de la API-Agenda
+    const horaActual = new Date().toLocaleString();
+    const cantidadEntradas = persons.length;
+
+    const respuestaInfo = ()=>{
+    return `
+        <h1>API-AGENDA||INFO</h1>
+        <p>
+            La agenda tiene informacion de <strong>${cantidadEntradas}</strong> personas, 
+            Ciudad de Mexico <strong>${horaActual}</strong> (Zona horaria America Central).
+            <br>
+            <a href="http://localhost:3001/">Regresar a pagina principal</a>
+        </p>
+    `;
+    };
+
     response.send(respuestaInfo());
 })
 
