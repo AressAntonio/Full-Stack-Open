@@ -28,10 +28,26 @@ let persons = [
     }
 ];
 
+//Codigo para mostar info de la API-Agenda
+const horaActual = new Date().toLocaleString();
+const cantidadEntradas = persons.length;
+
+const respuestaInfo = ()=>{
+    return `
+        <h1>API-AGENDA||INFO</h1>
+        <p>
+            La agenda tiene informacion de <strong>${cantidadEntradas}</strong> personas, 
+            Ciudad de Mexico <strong>${horaActual}</strong> (Zona horaria America Central).
+            <br>
+            <a href="http://localhost:3001/">Regresar a pagina principal</a>
+        </p>
+    `;
+};
+
 //TRAYENDO RUTA PRINCIPAL DE LA API
 app.get('/', (request, response)=>{
 
-    response.send('<h1>API Agenda!</h1><br><a href="http://localhost:3001/api/persons">PERSONS..</a>');
+    response.send('<h1>API Agenda!</h1><br><p><a href="http://localhost:3001/api/persons">PERSONS..</a><br><a href="http://localhost:3001/api/info">INFO..</a></p>');
 });
 
 //trayendo todos los datos de la API
@@ -40,6 +56,11 @@ app.get('/api/persons', (request, response)=>{
     response.json(persons);
 })
 
+//TRAYENDO INFO DE LA API
+app.get('/api/info', (request, response)=>{
+
+    response.send(respuestaInfo());
+})
 
 
 
