@@ -28,22 +28,6 @@ let persons = [
     }
 ];
 
-//Codigo para mostar info de la API-Agenda
-const horaActual = new Date().toLocaleString();
-const cantidadEntradas = persons.length;
-
-const respuestaInfo = ()=>{
-    return `
-        <h1>API-AGENDA||INFO</h1>
-        <p>
-            La agenda tiene informacion de <strong>${cantidadEntradas}</strong> personas, 
-            Ciudad de Mexico <strong>${horaActual}</strong> (Zona horaria America Central).
-            <br>
-            <a href="http://localhost:3001/">Regresar a pagina principal</a>
-        </p>
-    `;
-};
-
 //TRAYENDO RUTA PRINCIPAL DE LA API
 app.get('/', (request, response)=>{
 
@@ -100,6 +84,40 @@ app.delete('/api/persons/:id', (request, response)=>{
     persons = persons.filter(person => person.id !== id);
 
     response.status(204).end();
+})
+
+//CREANDO NUEVO OBJETO
+const generateId = () => {
+    const usedIds = new Set(persons.map(p => p.id)); // Crea un conjunto con los IDs existentes
+    let newId;
+    do {
+        newId = Math.floor(Math.random() * 1000000); // Genera un ID aleatorio de 6 dígitos
+    } while (usedIds.has(newId)); // Repite hasta que el ID sea único
+    return newId;
+};
+
+
+app.post('/api/persons', (request, response)=>{
+
+    const body = request.body;
+    const name = body.name;
+    const number = body.number;
+   
+
+    if(!name || !number){
+        return response.status(400).json({
+            error: 'name and phone are required'
+        });
+    };
+
+    const person = {
+        id: generateId(),
+        name: name,
+        number: number
+    };
+
+    persons = persons.concat(person);
+    response.json(person);
 })
 
 
