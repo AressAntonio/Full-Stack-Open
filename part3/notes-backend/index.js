@@ -26,10 +26,19 @@ let notes = [
     response.end(JSON.stringify(notes));
 });*/
 
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+}
+
 //CREANDO SERVIDOR WEB CON EXPRESS
 const express = require('express');
 const app = express();
 app.use(express.json());
+app.use(requestLogger);
 
 //Traer ruta principal de la API
 app.get('/', (request, response)=>{
@@ -96,6 +105,11 @@ app.delete('/api/notes/:id', (request, response)=>{
     response.status(204).end();
 });
 
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+  
+app.use(unknownEndpoint)
 
 //definicion de puerto para levantar servidor web
 const PORT = 3001;

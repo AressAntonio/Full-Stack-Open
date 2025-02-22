@@ -1,8 +1,19 @@
 //CREANDO SERVIDOR WEB CON EXPRESS
 const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser'); 
 const app = express();
-
+app.use(bodyParser.json());
+app.use(morgan('tiny'));
 app.use(express.json());
+
+// Middleware personalizado para registrar el cuerpo de las solicitudes POST.
+app.use((req, res, next) => {
+    if (req.method === 'POST') {
+        console.log('Datos enviados:', req.body);
+    }
+    next();
+});
 
 //DATOS DE LA api
 let persons = [
